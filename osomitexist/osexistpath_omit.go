@@ -58,3 +58,15 @@ func ROOT(path string) string {
 	sure.Omit(err)
 	return res0
 }
+
+func MustPath(path string) {
+	osexistpath.MustPath(path)
+}
+
+func MustFile(path string) {
+	osexistpath.MustFile(path)
+}
+
+func MustRoot(path string) {
+	osexistpath.MustRoot(path)
+}

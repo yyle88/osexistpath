@@ -40,3 +40,15 @@ func (T *existNamespace) FILE(path string) (string, error) {
 func (T *existNamespace) ROOT(path string) (string, error) {
 	return osexistpath.ROOT(path)
 }
+
+func (T *existNamespace) MustPath(path string) {
+	osexistpath.MustPath(path)
+}
+
+func (T *existNamespace) MustFile(path string) {
+	osexistpath.MustFile(path)
+}
+
+func (T *existNamespace) MustRoot(path string) {
+	osexistpath.MustRoot(path)
+}

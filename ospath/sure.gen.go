@@ -37,6 +37,15 @@ func (T *existNamespace_Must) ROOT(path string) (res string) {
 	sure.Must(err1)
 	return res
 }
+func (T *existNamespace_Must) MustPath(path string) {
+	T.T.MustPath(path)
+}
+func (T *existNamespace_Must) MustFile(path string) {
+	T.T.MustFile(path)
+}
+func (T *existNamespace_Must) MustRoot(path string) {
+	T.T.MustRoot(path)
+}
 
 type existNamespace_Soft struct{ T *existNamespace }
 
@@ -73,6 +82,15 @@ func (T *existNamespace_Soft) ROOT(path string) (res string) {
 	sure.Soft(err1)
 	return res
 }
+func (T *existNamespace_Soft) MustPath(path string) {
+	T.T.MustPath(path)
+}
+func (T *existNamespace_Soft) MustFile(path string) {
+	T.T.MustFile(path)
+}
+func (T *existNamespace_Soft) MustRoot(path string) {
+	T.T.MustRoot(path)
+}
 
 type existNamespace_Omit struct{ T *existNamespace }
 
@@ -108,4 +126,13 @@ func (T *existNamespace_Omit) ROOT(path string) (res string) {
 	res, err1 := T.T.ROOT(path)
 	sure.Omit(err1)
 	return res
+}
+func (T *existNamespace_Omit) MustPath(path string) {
+	T.T.MustPath(path)
+}
+func (T *existNamespace_Omit) MustFile(path string) {
+	T.T.MustFile(path)
+}
+func (T *existNamespace_Omit) MustRoot(path string) {
+	T.T.MustRoot(path)
 }
