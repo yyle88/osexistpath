@@ -42,9 +42,6 @@ func IsFileExists(path string) (bool, error) {
 }
 
 // IsRootExists 这个函数就表示目录是否存在
-// 因为我觉得 dir 这个单词太丑，让人看着就想吐，而 directory 过长且含义不明
-// 因此在我的所有开源项目里，我拒绝使用 dir 和 directory 这俩单词
-// 在我的开源项目里 root 就指目录
 func IsRootExists(path string) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
@@ -74,10 +71,8 @@ func File(path string) (bool, error) {
 	return IsFileExists(path)
 }
 
-// Root 这个函数就表示目录是否存在
-// 因为我觉得 dir 这个单词太丑，让人看着就想吐，而 directory 过长且含义不明
-// 因此在我的所有开源项目里，我拒绝使用 dir 和 directory 这俩单词
-// 在我的开源项目里 root 就指目录
+// Root 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
+// 在我的开源项目里倾向于使用 root 就指目录，让代码更整齐些，虽然这样可能是不恰当的，但就这样吧
 func Root(path string) (bool, error) {
 	return IsRootExists(path)
 }
