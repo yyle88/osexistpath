@@ -3,6 +3,7 @@ package osexistpath
 import (
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/yyle88/erero"
 	"github.com/yyle88/zaplog"
 	"go.uber.org/zap"
@@ -35,7 +36,7 @@ func IsFileExists(path string) (bool, error) {
 	if info.IsDir() {
 		zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.String("type", "root"))
 		// 这里必须返回错误，否则判定不存在接着创建文件就没法创建，而强行写/删也会出问题
-		return false, erero.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
+		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
 	}
 	//这里依然要判断类型避免漏判
 	return !info.IsDir(), nil
@@ -55,7 +56,7 @@ func IsRootExists(path string) (bool, error) {
 	if !info.IsDir() {
 		zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.String("type", "file"))
 		// 这里必须返回错误，否则判定不存在接着创建目录就没法创建，而强行建/删也会出问题
-		return false, erero.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
+		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
 	}
 	//这里依然要判断类型避免漏判
 	return info.IsDir(), nil
