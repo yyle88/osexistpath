@@ -13,7 +13,7 @@ import (
 func IsPathExists(path string) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
-			zaplog.LOGS.P1.Debug("IS_PATH_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+			// zaplog.LOGS.P1.Debug("IS_PATH_EXISTS", zap.String("path", path), zap.Bool("exist", false))
 			return false, nil // 路径不存在
 		}
 		zaplog.LOGS.P1.Error("IS_PATH_EXISTS", zap.String("path", path), zap.Error(err))
@@ -27,7 +27,7 @@ func IsFileExists(path string) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+			// zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.Bool("exist", false))
 			return false, nil // 路径不存在
 		}
 		zaplog.LOGS.P1.Error("IS_FILE_EXISTS", zap.String("path", path), zap.Error(err))
@@ -47,7 +47,7 @@ func IsRootExists(path string) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			zaplog.LOGS.P1.Debug("IS_ROOT_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+			// zaplog.LOGS.P1.Debug("IS_ROOT_EXISTS", zap.String("path", path), zap.Bool("exist", false))
 			return false, nil // 路径不存在
 		}
 		zaplog.LOGS.P1.Error("IS_ROOT_EXISTS", zap.String("path", path), zap.Error(err))
