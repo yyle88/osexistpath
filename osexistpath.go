@@ -22,7 +22,7 @@ func IsPathExists(path string, verb LogVerb) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_PATH_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.P1.Debug("IS_PATH_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
@@ -40,18 +40,18 @@ func IsFileExists(path string, verb LogVerb) (bool, error) {
 	if err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.P1.Debug("IS_FILE_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
 		if verb != Quiet {
-			zaplog.LOGS.P1.Error("IS_FILE_EXISTS", zap.String("path", path), zap.Error(err))
+			zaplog.LOGS.P1.Error("IS_FILE_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
 		return false, erero.Wro(err) // 其他的错误
 	}
 	if info.IsDir() {
 		if verb == Noisy || verb == Sweet {
-			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.String("type", "root"))
+			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "ROOT"))
 		}
 		// 这里必须返回错误，否则判定不存在接着创建文件就没法创建，而强行写/删也会出问题
 		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
@@ -66,18 +66,18 @@ func IsRootExists(path string, verb LogVerb) (bool, error) {
 	if err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_ROOT_EXISTS", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.P1.Debug("IS_ROOT_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
 		if verb != Quiet {
-			zaplog.LOGS.P1.Error("IS_ROOT_EXISTS", zap.String("path", path), zap.Error(err))
+			zaplog.LOGS.P1.Error("IS_ROOT_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
 		return false, erero.Wro(err) // 其他的错误
 	}
 	if !info.IsDir() {
 		if verb == Noisy || verb == Sweet {
-			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS", zap.String("path", path), zap.String("type", "file"))
+			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "FILE"))
 		}
 		// 这里必须返回错误，否则判定不存在接着创建目录就没法创建，而强行建/删也会出问题
 		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
