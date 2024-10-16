@@ -11,29 +11,29 @@ import (
 )
 
 func TestIsPathExists(t *testing.T) {
-	done.VBE(osexistpath.IsPathExists(runpath.CurrentPath())).TRUE()
-	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Path())).TRUE()
+	done.VBE(osexistpath.IsPathExists(runpath.CurrentPath(), osexistpath.Sweet)).TRUE()
+	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Path(), osexistpath.Sweet)).TRUE()
 
-	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Join("abc.txt"))).FALSE()
-	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Join("xyz.uvw"))).FALSE()
+	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Join("abc.txt"), osexistpath.Sweet)).FALSE()
+	done.VBE(osexistpath.IsPathExists(runpath.PARENT.Join("xyz.uvw"), osexistpath.Sweet)).FALSE()
 }
 
 func TestIsFileExists(t *testing.T) {
-	done.VBE(osexistpath.IsFileExists(runtestpath.SrcPath(t))).TRUE()
+	done.VBE(osexistpath.IsFileExists(runtestpath.SrcPath(t), osexistpath.Sweet)).TRUE()
 
-	done.VBE(osexistpath.IsFileExists(runpath.PARENT.Join("abc.txt"))).FALSE()
-	done.VBE(osexistpath.IsFileExists(runpath.PARENT.Join("xyz.uvw"))).FALSE()
+	done.VBE(osexistpath.IsFileExists(runpath.PARENT.Join("abc.txt"), osexistpath.Sweet)).FALSE()
+	done.VBE(osexistpath.IsFileExists(runpath.PARENT.Join("xyz.uvw"), osexistpath.Sweet)).FALSE()
 
-	require.Error(t, done.VBE(osexistpath.IsFileExists(runpath.PARENT.Path())).E)
+	require.Error(t, done.VBE(osexistpath.IsFileExists(runpath.PARENT.Path(), osexistpath.Sweet)).E)
 }
 
 func TestIsRootExists(t *testing.T) {
-	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Path())).TRUE()
+	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Path(), osexistpath.Sweet)).TRUE()
 
-	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Join("abc.txt"))).FALSE()
-	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Join("xyz.uvw"))).FALSE()
+	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Join("abc.txt"), osexistpath.Sweet)).FALSE()
+	done.VBE(osexistpath.IsRootExists(runpath.PARENT.Join("xyz.uvw"), osexistpath.Sweet)).FALSE()
 
-	require.Error(t, done.VBE(osexistpath.IsRootExists(runtestpath.SrcPath(t))).E)
+	require.Error(t, done.VBE(osexistpath.IsRootExists(runtestpath.SrcPath(t), osexistpath.Sweet)).E)
 }
 
 func TestPath(t *testing.T) {
