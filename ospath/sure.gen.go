@@ -7,18 +7,18 @@ type existNamespace_Must struct{ T *existNamespace }
 func (T *existNamespace) Must() *existNamespace_Must {
 	return &existNamespace_Must{T: T}
 }
-func (T *existNamespace_Must) Path(path string) (res bool) {
-	res, err1 := T.T.Path(path)
+func (T *existNamespace_Must) IsPath(path string) (res bool) {
+	res, err1 := T.T.IsPath(path)
 	sure.Must(err1)
 	return res
 }
-func (T *existNamespace_Must) File(path string) (res bool) {
-	res, err1 := T.T.File(path)
+func (T *existNamespace_Must) IsFile(path string) (res bool) {
+	res, err1 := T.T.IsFile(path)
 	sure.Must(err1)
 	return res
 }
-func (T *existNamespace_Must) Root(path string) (res bool) {
-	res, err1 := T.T.Root(path)
+func (T *existNamespace_Must) IsRoot(path string) (res bool) {
+	res, err1 := T.T.IsRoot(path)
 	sure.Must(err1)
 	return res
 }
@@ -52,18 +52,18 @@ type existNamespace_Soft struct{ T *existNamespace }
 func (T *existNamespace) Soft() *existNamespace_Soft {
 	return &existNamespace_Soft{T: T}
 }
-func (T *existNamespace_Soft) Path(path string) (res bool) {
-	res, err1 := T.T.Path(path)
+func (T *existNamespace_Soft) IsPath(path string) (res bool) {
+	res, err1 := T.T.IsPath(path)
 	sure.Soft(err1)
 	return res
 }
-func (T *existNamespace_Soft) File(path string) (res bool) {
-	res, err1 := T.T.File(path)
+func (T *existNamespace_Soft) IsFile(path string) (res bool) {
+	res, err1 := T.T.IsFile(path)
 	sure.Soft(err1)
 	return res
 }
-func (T *existNamespace_Soft) Root(path string) (res bool) {
-	res, err1 := T.T.Root(path)
+func (T *existNamespace_Soft) IsRoot(path string) (res bool) {
+	res, err1 := T.T.IsRoot(path)
 	sure.Soft(err1)
 	return res
 }
@@ -97,18 +97,18 @@ type existNamespace_Omit struct{ T *existNamespace }
 func (T *existNamespace) Omit() *existNamespace_Omit {
 	return &existNamespace_Omit{T: T}
 }
-func (T *existNamespace_Omit) Path(path string) (res bool) {
-	res, err1 := T.T.Path(path)
+func (T *existNamespace_Omit) IsPath(path string) (res bool) {
+	res, err1 := T.T.IsPath(path)
 	sure.Omit(err1)
 	return res
 }
-func (T *existNamespace_Omit) File(path string) (res bool) {
-	res, err1 := T.T.File(path)
+func (T *existNamespace_Omit) IsFile(path string) (res bool) {
+	res, err1 := T.T.IsFile(path)
 	sure.Omit(err1)
 	return res
 }
-func (T *existNamespace_Omit) Root(path string) (res bool) {
-	res, err1 := T.T.Root(path)
+func (T *existNamespace_Omit) IsRoot(path string) (res bool) {
+	res, err1 := T.T.IsRoot(path)
 	sure.Omit(err1)
 	return res
 }

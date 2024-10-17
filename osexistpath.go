@@ -86,19 +86,19 @@ func IsRootExists(path string, verb LogVerb) (bool, error) {
 	return info.IsDir(), nil
 }
 
-// Path 检查这个路径下是否有东西
-func Path(path string) (bool, error) {
+// IsPath 检查这个路径下是否有东西
+func IsPath(path string) (bool, error) {
 	return IsPathExists(path, Quiet)
 }
 
-// File 检查文件是否存在返回布尔
-func File(path string) (bool, error) {
+// IsFile 检查文件是否存在返回布尔
+func IsFile(path string) (bool, error) {
 	return IsFileExists(path, Quiet)
 }
 
-// Root 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
+// IsRoot 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
 // 在我的开源项目里倾向于使用 root 就指目录，让代码更整齐些，虽然这样可能是不恰当的，但就这样吧
-func Root(path string) (bool, error) {
+func IsRoot(path string) (bool, error) {
 	return IsRootExists(path, Quiet)
 }
 

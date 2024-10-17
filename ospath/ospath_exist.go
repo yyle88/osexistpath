@@ -8,20 +8,20 @@ type existNamespace struct{}
 
 var EXIST = &existNamespace{}
 
-// Path 检查这个路径下是否有东西
-func (*existNamespace) Path(path string) (bool, error) {
-	return osexistpath.Path(path)
+// IsPath 检查这个路径下是否有东西
+func (*existNamespace) IsPath(path string) (bool, error) {
+	return osexistpath.IsPath(path)
 }
 
-// File 检查文件是否存在
-func (*existNamespace) File(path string) (bool, error) {
-	return osexistpath.File(path)
+// IsFile 检查文件是否存在
+func (*existNamespace) IsFile(path string) (bool, error) {
+	return osexistpath.IsFile(path)
 }
 
-// Root 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
+// IsRoot 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
 // 在我的开源项目里倾向于使用 root 就指目录，让代码更整齐些，虽然这样可能是不恰当的，但就这样吧
-func (*existNamespace) Root(path string) (bool, error) {
-	return osexistpath.Root(path)
+func (*existNamespace) IsRoot(path string) (bool, error) {
+	return osexistpath.IsRoot(path)
 }
 
 // PATH 假如存在就把路径返回，假如不存在就报错，返回路径再转换为单值就有用

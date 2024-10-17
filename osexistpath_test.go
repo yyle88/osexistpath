@@ -37,19 +37,19 @@ func TestIsRootExists(t *testing.T) {
 }
 
 func TestPath(t *testing.T) {
-	done.VBE(osexistpath.Path(runpath.CurrentPath())).TRUE()
-	done.VBE(osexistpath.Path(runpath.PARENT.Path())).TRUE()
+	done.VBE(osexistpath.IsPath(runpath.CurrentPath())).TRUE()
+	done.VBE(osexistpath.IsPath(runpath.PARENT.Path())).TRUE()
 
-	done.VBE(osexistpath.Path(runpath.PARENT.Join("abc.txt"))).FALSE()
-	done.VBE(osexistpath.Path(runpath.PARENT.Join("xyz.uvw"))).FALSE()
+	done.VBE(osexistpath.IsPath(runpath.PARENT.Join("abc.txt"))).FALSE()
+	done.VBE(osexistpath.IsPath(runpath.PARENT.Join("xyz.uvw"))).FALSE()
 }
 
 func TestFile(t *testing.T) {
-	done.VBE(osexistpath.File(runtestpath.SrcPath(t))).TRUE()
+	done.VBE(osexistpath.IsFile(runtestpath.SrcPath(t))).TRUE()
 }
 
 func TestRoot(t *testing.T) {
-	done.VBE(osexistpath.Root(runpath.PARENT.Path())).TRUE()
+	done.VBE(osexistpath.IsRoot(runpath.PARENT.Path())).TRUE()
 }
 
 func TestMustPath(t *testing.T) {

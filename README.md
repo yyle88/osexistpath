@@ -13,19 +13,19 @@ osexistpath.MustFile(path) //检查文件是否存在，假如不存在就直接
 ```
 
 ```
-if osmustexist.File(path) { //检查文件是否存在，假如有错误就直接panic
+if osmustexist.IsFile(path) { //检查文件是否存在，假如有错误就直接panic，假如不存在就返回false，假如存在就返回true
     //读取内容
 }
 ```
 
 ```
-if ossoftexist.File(path) { //检查文件是否存在，假如有错误就返回false
+if ossoftexist.IsFile(path) { //检查文件是否存在，假如有错误就返回false，假如不存在就返回false，假如存在就返回true
     //读取内容
 }
 ```
 
 ```
-path := osmustexist.FILE(path) //检查文件是否存在，假如已存在就返回路径，否则就直接panic
+path := osmustexist.FILE(path) //检查文件是否存在，假如已存在就返回路径，否则就直接panic，常用于获取完路径就要立即使用的场景
 ```
 
 ```

@@ -15,20 +15,20 @@ func Test_existNamespace_Path(t *testing.T) {
 		runpath.PARENT.Path(),
 	} {
 		t.Log(path)
-		done.VBE(ospath.EXIST.Path(path)).TRUE()
+		done.VBE(ospath.EXIST.IsPath(path)).TRUE()
 	}
 }
 
 func Test_existNamespace_File(t *testing.T) {
 	path := runtestpath.SrcPath(t)
 	t.Log(path)
-	done.VBE(ospath.EXIST.Path(path)).TRUE()
+	done.VBE(ospath.EXIST.IsPath(path)).TRUE()
 }
 
 func Test_existNamespace_Root(t *testing.T) {
 	path := runpath.PARENT.Path()
 	t.Log(path)
-	done.VBE(ospath.EXIST.Root(path)).TRUE()
+	done.VBE(ospath.EXIST.IsRoot(path)).TRUE()
 }
 
 func Test_existNamespace_MustPath(t *testing.T) {

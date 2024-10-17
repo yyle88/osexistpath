@@ -23,20 +23,20 @@ func IsRootExists(path string, verb LogVerb) bool {
 	return res0
 }
 
-func Path(path string) bool {
-	res0, err := osexistpath.Path(path)
+func IsPath(path string) bool {
+	res0, err := osexistpath.IsPath(path)
 	sure.Soft(err)
 	return res0
 }
 
-func File(path string) bool {
-	res0, err := osexistpath.File(path)
+func IsFile(path string) bool {
+	res0, err := osexistpath.IsFile(path)
 	sure.Soft(err)
 	return res0
 }
 
-func Root(path string) bool {
-	res0, err := osexistpath.Root(path)
+func IsRoot(path string) bool {
+	res0, err := osexistpath.IsRoot(path)
 	sure.Soft(err)
 	return res0
 }
