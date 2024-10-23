@@ -9,16 +9,17 @@ import (
 	"go.uber.org/zap"
 )
 
-type LogVerb string
+type StatVerb string
 
 const (
-	Quiet LogVerb = "QUIET" //比较安静的，即出错时不打印任何日志
-	Noisy LogVerb = "NOISY" //比较吵闹的，即无论什么错误都会打印
-	Sweet LogVerb = "SWEET" //有点适度的，即只打印预料之外的错误
+	Quiet StatVerb = "QUIET" //比较安静的，即出错时不打印任何日志
+	Noisy StatVerb = "NOISY" //比较吵闹的，即无论什么错误都会打印
+	Sweet StatVerb = "SWEET" //有点适度的，即只打印预料之外的错误
+	Might StatVerb = "MIGHT" //表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不是也不报错
 )
 
 // IsPathExists 检查这个路径下是否有东西
-func IsPathExists(path string, verb LogVerb) (bool, error) {
+func IsPathExists(path string, verb StatVerb) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
@@ -35,7 +36,7 @@ func IsPathExists(path string, verb LogVerb) (bool, error) {
 }
 
 // IsFileExists 检查文件是否存在返回布尔
-func IsFileExists(path string, verb LogVerb) (bool, error) {
+func IsFileExists(path string, verb StatVerb) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -50,18 +51,29 @@ func IsFileExists(path string, verb LogVerb) (bool, error) {
 		return false, erero.Wro(err) // 其他的错误
 	}
 	if info.IsDir() {
-		if verb == Noisy || verb == Sweet {
+		//这里不要直接打错误日志，需要根据情况而定
+		erx := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
+
+		switch verb {
+		case Noisy, Sweet:
 			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "ROOT"))
+			return false, erx
+		case Quiet:
+			return false, erx
+		case Might:
+			// 这里不要返回错误，因为这里的意图是判定是不是这个类型，在逻辑中是if询问性质的，没有明确的预期
+			return false, nil
+		default:
+			// 这里必须返回错误，否则判定不存在接着创建文件就没法创建，而强行写/删也会出问题
+			return false, erx
 		}
-		// 这里必须返回错误，否则判定不存在接着创建文件就没法创建，而强行写/删也会出问题
-		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
 	}
 	//这里依然要判断类型避免漏判
 	return !info.IsDir(), nil
 }
 
 // IsRootExists 这个函数就表示目录是否存在
-func IsRootExists(path string, verb LogVerb) (bool, error) {
+func IsRootExists(path string, verb StatVerb) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -76,11 +88,22 @@ func IsRootExists(path string, verb LogVerb) (bool, error) {
 		return false, erero.Wro(err) // 其他的错误
 	}
 	if !info.IsDir() {
-		if verb == Noisy || verb == Sweet {
+		//这里不要直接打错误日志，需要根据情况而定
+		erx := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
+
+		switch verb {
+		case Noisy, Sweet:
 			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "FILE"))
+			return false, erx
+		case Quiet:
+			return false, erx
+		case Might:
+			// 这里不要返回错误，因为这里的意图是判定是不是这个类型，在逻辑中是if询问性质的，没有明确的预期
+			return false, nil
+		default:
+			// 这里必须返回错误，否则判定不存在接着创建目录就没法创建，而强行建/删也会出问题
+			return false, erx
 		}
-		// 这里必须返回错误，否则判定不存在接着创建目录就没法创建，而强行建/删也会出问题
-		return false, errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
 	}
 	//这里依然要判断类型避免漏判
 	return info.IsDir(), nil
@@ -88,18 +111,18 @@ func IsRootExists(path string, verb LogVerb) (bool, error) {
 
 // IsPath 检查这个路径下是否有东西
 func IsPath(path string) (bool, error) {
-	return IsPathExists(path, Quiet)
+	return IsPathExists(path, Might)
 }
 
 // IsFile 检查文件是否存在返回布尔
 func IsFile(path string) (bool, error) {
-	return IsFileExists(path, Quiet)
+	return IsFileExists(path, Might)
 }
 
 // IsRoot 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
 // 在我的开源项目里倾向于使用 root 就指目录，让代码更整齐些，虽然这样可能是不恰当的，但就这样吧
 func IsRoot(path string) (bool, error) {
-	return IsRootExists(path, Quiet)
+	return IsRootExists(path, Might)
 }
 
 // PATH 假如存在就把路径返回，假如不存在就报错，返回路径再转换为单值就有用

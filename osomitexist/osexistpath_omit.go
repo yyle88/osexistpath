@@ -5,19 +5,19 @@ import (
 	"github.com/yyle88/sure"
 )
 
-func IsPathExists(path string, verb LogVerb) bool {
+func IsPathExists(path string, verb StatVerb) bool {
 	res0, err := osexistpath.IsPathExists(path, verb)
 	sure.Omit(err)
 	return res0
 }
 
-func IsFileExists(path string, verb LogVerb) bool {
+func IsFileExists(path string, verb StatVerb) bool {
 	res0, err := osexistpath.IsFileExists(path, verb)
 	sure.Omit(err)
 	return res0
 }
 
-func IsRootExists(path string, verb LogVerb) bool {
+func IsRootExists(path string, verb StatVerb) bool {
 	res0, err := osexistpath.IsRootExists(path, verb)
 	sure.Omit(err)
 	return res0
