@@ -12,18 +12,19 @@ import (
 )
 
 func TestGen(t *testing.T) {
-	param := sure_cls_gen.NewGenParam(runpath.PARENT.Path())
-	param.SetSubClassNamePartWords("_")
-	param.SetSubClassNameStyleEnum(sure_cls_gen.STYLE_SUFFIX_CAMELCASE_TYPE)
-	param.SetSureEnum(sure.MUST, sure.SOFT, sure.OMIT)
+	options := sure_cls_gen.NewClassGenOptions(runpath.PARENT.Path()).
+		WithNewClassNameParts("_").
+		WithNamingPatternType(sure_cls_gen.STYLE_SUFFIX_CAMELCASE_TYPE).
+		MoreErrorHandlingModes(sure.MUST, sure.SOFT, sure.OMIT)
 
-	cfg := &sure_cls_gen.Config{
-		GenParam:      param,
-		PkgName:       syntaxgo.CurrentPackageName(),
-		ImportOptions: syntaxgo_ast.NewPackageImportOptions(),
-		SrcPath:       runtestpath.SrcPath(t),
+	config := &sure_cls_gen.ClassGenConfig{
+		ClassGenOptions: options,
+		PackageName:     syntaxgo.CurrentPackageName(),
+		ImportOptions:   syntaxgo_ast.NewPackageImportOptions(),
+		OutputPath:      runtestpath.SrcPath(t),
 	}
-	sure_cls_gen.Gen(cfg, existNamespace{})
+
+	sure_cls_gen.GenerateClasses(config, existNamespace{})
 }
 
 func Test_existNamespace_Must_PATH(t *testing.T) {

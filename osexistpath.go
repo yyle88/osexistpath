@@ -12,12 +12,13 @@ import (
 type StatVerb string
 
 const (
-	Quiet StatVerb = "QUIET" //比较安静的，即出错时不打印任何日志
-	Noisy StatVerb = "NOISY" //比较吵闹的，即无论什么错误都会打印
-	Sweet StatVerb = "SWEET" //有点适度的，即只打印预料之外的错误
-	Might StatVerb = "MIGHT" //表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不是也不报错
+	Quiet StatVerb = "QUIET" // Quiet mode, no logs on errors // 比较安静的，即出错时不打印任何日志
+	Noisy StatVerb = "NOISY" // Noisy mode, logs all errors // 比较吵闹的，即无论什么错误都会打印
+	Sweet StatVerb = "SWEET" // Sweet mode, logs unexpected errors // 有点适度的，即只打印预料之外的错误
+	Might StatVerb = "MIGHT" // Might mode, checks type without raising errors // 表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不抛出错误
 )
 
+// IsPathExists checks if there is something in this path
 // IsPathExists 检查这个路径下是否有东西
 func IsPathExists(path string, verb StatVerb) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
@@ -35,6 +36,7 @@ func IsPathExists(path string, verb StatVerb) (bool, error) {
 	return true, nil
 }
 
+// IsFileExists checks if a file exists and returns a boolean
 // IsFileExists 检查文件是否存在返回布尔
 func IsFileExists(path string, verb StatVerb) (bool, error) {
 	info, err := os.Stat(path)
@@ -72,6 +74,7 @@ func IsFileExists(path string, verb StatVerb) (bool, error) {
 	return !info.IsDir(), nil
 }
 
+// IsRootExists checks if the directory exists
 // IsRootExists 这个函数就表示目录是否存在
 func IsRootExists(path string, verb StatVerb) (bool, error) {
 	info, err := os.Stat(path)
@@ -109,22 +112,25 @@ func IsRootExists(path string, verb StatVerb) (bool, error) {
 	return info.IsDir(), nil
 }
 
+// IsPath checks if there is something in the path
 // IsPath 检查这个路径下是否有东西
 func IsPath(path string) (bool, error) {
 	return IsPathExists(path, Might)
 }
 
+// IsFile checks if the file exists and returns a boolean
 // IsFile 检查文件是否存在返回布尔
 func IsFile(path string) (bool, error) {
 	return IsFileExists(path, Might)
 }
 
-// IsRoot 这个函数就表示目录是否存在，这里使用root表示目录，虽然不太贴切，但能保持函数名都是4个字母的
-// 在我的开源项目里倾向于使用 root 就指目录，让代码更整齐些，虽然这样可能是不恰当的，但就这样吧
+// IsRoot checks if the directory exists
+// IsRoot 这个函数就表示目录是否存在，这里使用root表示目录，保持函数名都是4个字母的
 func IsRoot(path string) (bool, error) {
 	return IsRootExists(path, Might)
 }
 
+// PATH checks if the path exists, otherwise returns an error
 // PATH 假如存在就把路径返回，假如不存在就报错，返回路径再转换为单值就有用
 func PATH(path string) (string, error) {
 	exist, err := IsPathExists(path, Sweet)
@@ -139,6 +145,7 @@ func PATH(path string) (string, error) {
 	return path, nil
 }
 
+// FILE checks if the file exists, otherwise returns an error
 // FILE 假如存在就把路径返回，假如不存在就报错，返回路径再转换为单值就有用
 func FILE(path string) (string, error) {
 	exist, err := IsFileExists(path, Sweet)
@@ -153,6 +160,7 @@ func FILE(path string) (string, error) {
 	return path, nil
 }
 
+// ROOT checks if the root directory exists, otherwise returns an error
 // ROOT 假如存在就把路径返回，假如不存在就报错，返回路径再转换为单值就有用
 func ROOT(path string) (string, error) {
 	exist, err := IsRootExists(path, Sweet)
@@ -167,6 +175,7 @@ func ROOT(path string) (string, error) {
 	return path, nil
 }
 
+// MustPath checks if the path exists, otherwise panics
 // MustPath 检查路径是否存在否则崩掉
 func MustPath(path string) {
 	exist, err := IsPathExists(path, Noisy)
@@ -178,6 +187,7 @@ func MustPath(path string) {
 	}
 }
 
+// MustFile checks if the file exists, otherwise panics
 // MustFile 检查文件是否存在否则崩掉
 func MustFile(path string) {
 	exist, err := IsFileExists(path, Noisy)
@@ -189,6 +199,7 @@ func MustFile(path string) {
 	}
 }
 
+// MustRoot checks if the directory exists, otherwise panics
 // MustRoot 检查目录是否存在否则崩掉
 func MustRoot(path string) {
 	exist, err := IsRootExists(path, Noisy)
