@@ -9,18 +9,18 @@ import (
 	"go.uber.org/zap"
 )
 
-type StatVerb string
+type CheckMode string
 
 const (
-	Quiet StatVerb = "QUIET" // Quiet mode, no logs on errors // 比较安静的，即出错时不打印任何日志
-	Noisy StatVerb = "NOISY" // Noisy mode, logs all errors // 比较吵闹的，即无论什么错误都会打印
-	Sweet StatVerb = "SWEET" // Sweet mode, logs unexpected errors // 有点适度的，即只打印预料之外的错误
-	Might StatVerb = "MIGHT" // Might mode, checks type without raising errors // 表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不抛出错误
+	Quiet CheckMode = "QUIET" // Quiet mode, no logs on errors // 比较安静的，即出错时不打印任何日志
+	Noisy CheckMode = "NOISY" // Noisy mode, logs all errors // 比较吵闹的，即无论什么错误都会打印
+	Sweet CheckMode = "SWEET" // Sweet mode, logs unexpected errors // 有点适度的，即只打印预料之外的错误
+	Might CheckMode = "MIGHT" // Might mode, checks type without raising errors // 表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不抛出错误
 )
 
 // IsPathExists checks if there is something in this path
 // IsPathExists 检查这个路径下是否有东西
-func IsPathExists(path string, verb StatVerb) (bool, error) {
+func IsPathExists(path string, verb CheckMode) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
@@ -38,7 +38,7 @@ func IsPathExists(path string, verb StatVerb) (bool, error) {
 
 // IsFileExists checks if a file exists and returns a boolean
 // IsFileExists 检查文件是否存在返回布尔
-func IsFileExists(path string, verb StatVerb) (bool, error) {
+func IsFileExists(path string, verb CheckMode) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -76,7 +76,7 @@ func IsFileExists(path string, verb StatVerb) (bool, error) {
 
 // IsRootExists checks if the directory exists
 // IsRootExists 这个函数就表示目录是否存在
-func IsRootExists(path string, verb StatVerb) (bool, error) {
+func IsRootExists(path string, verb CheckMode) (bool, error) {
 	info, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
