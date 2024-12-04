@@ -4,6 +4,10 @@
 
 `osexistpath` 旨在检查路径、文件或目录是否存在。
 
+## 英文文档
+
+[English README](README.md)
+
 ## 特性
 
 - **IsPathExists**: 检查路径是否存在。

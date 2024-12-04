@@ -11,6 +11,10 @@
 
 `osexistpath` is designed to check whether a path, file, or directory exists.
 
+## CHINESE README
+
+[中文说明](README.zh.md)
+
 ## Features
 
 - **IsPathExists**: Checks whether a path exists.

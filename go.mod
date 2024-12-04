@@ -9,7 +9,7 @@ require (
 	github.com/yyle88/erero v1.0.14
 	github.com/yyle88/runpath v1.0.22
 	github.com/yyle88/sure v0.0.32
-	github.com/yyle88/syntaxgo v0.0.35
+	github.com/yyle88/syntaxgo v0.0.36
 	github.com/yyle88/zaplog v0.0.16
 	go.uber.org/zap v1.27.0
 )
