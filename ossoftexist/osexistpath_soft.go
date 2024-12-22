@@ -23,6 +23,24 @@ func IsRootExists(path string, verb osexistpath.CheckMode) bool {
 	return res0
 }
 
+func IsPathExist(path string) bool {
+	res0, err := osexistpath.IsPathExist(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsFileExist(path string) bool {
+	res0, err := osexistpath.IsFileExist(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsRootExist(path string) bool {
+	res0, err := osexistpath.IsRootExist(path)
+	sure.Soft(err)
+	return res0
+}
+
 func IsPath(path string) bool {
 	res0, err := osexistpath.IsPath(path)
 	sure.Soft(err)

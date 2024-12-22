@@ -12,9 +12,9 @@ import (
 type CheckMode string
 
 const (
-	Quiet CheckMode = "QUIET" // Quiet mode, no logs on errors // 比较安静的，即出错时不打印任何日志
 	Noisy CheckMode = "NOISY" // Noisy mode, logs all errors // 比较吵闹的，即无论什么错误都会打印
 	Sweet CheckMode = "SWEET" // Sweet mode, logs unexpected errors // 有点适度的，即只打印预料之外的错误
+	Quiet CheckMode = "QUIET" // Quiet mode, no logs on errors // 比较安静的，即出错时不打印任何日志
 	Might CheckMode = "MIGHT" // Might mode, checks type without raising errors // 表示询问的，即询问文件是何种类型的，在调用函数前没有预期，因此不抛出错误
 )
 
@@ -110,6 +110,24 @@ func IsRootExists(path string, verb CheckMode) (bool, error) {
 	}
 	//这里依然要判断类型避免漏判
 	return info.IsDir(), nil
+}
+
+// IsPathExist checks if there is something in the path
+// IsPathExist 检查这个路径下是否有东西
+func IsPathExist(path string) (bool, error) {
+	return IsPathExists(path, Quiet)
+}
+
+// IsFileExist checks if the file exists and returns a boolean
+// IsFileExist 检查文件是否存在返回布尔
+func IsFileExist(path string) (bool, error) {
+	return IsFileExists(path, Quiet)
+}
+
+// IsRootExist checks if the directory exists
+// IsRootExist 这个函数就表示目录是否存在，这里使用root表示目录，保持函数名都是4个字母的
+func IsRootExist(path string) (bool, error) {
+	return IsRootExists(path, Quiet)
 }
 
 // IsPath checks if there is something in the path
