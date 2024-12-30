@@ -54,20 +54,20 @@ func IsFileExists(path string, verb CheckMode) (bool, error) {
 	}
 	if info.IsDir() {
 		//这里不要直接打错误日志，需要根据情况而定
-		erx := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
+		err := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-FILE")
 
 		switch verb {
 		case Noisy, Sweet:
 			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "ROOT"))
-			return false, erx
+			return false, err
 		case Quiet:
-			return false, erx
+			return false, err
 		case Might:
 			// 这里不要返回错误，因为这里的意图是判定是不是这个类型，在逻辑中是if询问性质的，没有明确的预期
 			return false, nil
 		default:
 			// 这里必须返回错误，否则判定不存在接着创建文件就没法创建，而强行写/删也会出问题
-			return false, erx
+			return false, err
 		}
 	}
 	//这里依然要判断类型避免漏判
@@ -92,20 +92,20 @@ func IsRootExists(path string, verb CheckMode) (bool, error) {
 	}
 	if !info.IsDir() {
 		//这里不要直接打错误日志，需要根据情况而定
-		erx := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
+		err := errors.New("PATH-EXIST-BUT-TYPE-IS-NOT-ROOT")
 
 		switch verb {
 		case Noisy, Sweet:
 			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "FILE"))
-			return false, erx
+			return false, err
 		case Quiet:
-			return false, erx
+			return false, err
 		case Might:
 			// 这里不要返回错误，因为这里的意图是判定是不是这个类型，在逻辑中是if询问性质的，没有明确的预期
 			return false, nil
 		default:
 			// 这里必须返回错误，否则判定不存在接着创建目录就没法创建，而强行建/删也会出问题
-			return false, erx
+			return false, err
 		}
 	}
 	//这里依然要判断类型避免漏判
