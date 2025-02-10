@@ -24,12 +24,12 @@ func IsPathExists(path string, verb CheckMode) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_PATH_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.Skip1.Debug("IS_PATH_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
 		if verb != Quiet {
-			zaplog.LOGS.P1.Error("IS_PATH_EXISTS", zap.String("path", path), zap.Error(err))
+			zaplog.LOGS.Skip1.Error("IS_PATH_EXISTS", zap.String("path", path), zap.Error(err))
 		}
 		return false, erero.Wro(err) // 其他的错误
 	}
@@ -43,12 +43,12 @@ func IsFileExists(path string, verb CheckMode) (bool, error) {
 	if err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_FILE_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.Skip1.Debug("IS_FILE_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
 		if verb != Quiet {
-			zaplog.LOGS.P1.Error("IS_FILE_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
+			zaplog.LOGS.Skip1.Error("IS_FILE_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
 		return false, erero.Wro(err) // 其他的错误
 	}
@@ -58,7 +58,7 @@ func IsFileExists(path string, verb CheckMode) (bool, error) {
 
 		switch verb {
 		case Noisy, Sweet:
-			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "ROOT"))
+			zaplog.LOGS.Skip1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "ROOT"))
 			return false, err
 		case Quiet:
 			return false, err
@@ -81,12 +81,12 @@ func IsRootExists(path string, verb CheckMode) (bool, error) {
 	if err != nil {
 		if os.IsNotExist(err) {
 			if verb == Noisy {
-				zaplog.LOGS.P1.Debug("IS_ROOT_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
+				zaplog.LOGS.Skip1.Debug("IS_ROOT_EXISTS not exists", zap.String("path", path), zap.Bool("exist", false))
 			}
 			return false, nil // 路径不存在
 		}
 		if verb != Quiet {
-			zaplog.LOGS.P1.Error("IS_ROOT_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
+			zaplog.LOGS.Skip1.Error("IS_ROOT_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
 		return false, erero.Wro(err) // 其他的错误
 	}
@@ -96,7 +96,7 @@ func IsRootExists(path string, verb CheckMode) (bool, error) {
 
 		switch verb {
 		case Noisy, Sweet:
-			zaplog.LOGS.P1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "FILE"))
+			zaplog.LOGS.Skip1.Debug("IS_FILE_EXISTS wrong type", zap.String("path", path), zap.String("type", "FILE"))
 			return false, err
 		case Quiet:
 			return false, err
@@ -153,11 +153,11 @@ func IsRoot(path string) (bool, error) {
 func PATH(path string) (string, error) {
 	exist, err := IsPathExists(path, Sweet)
 	if err != nil {
-		zaplog.LOGS.P1.Error("path", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Error("path", zap.String("path", path), zap.Error(err))
 		return "", erero.Wro(err)
 	}
 	if !exist {
-		zaplog.LOGS.P1.Debug("path", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Debug("path", zap.String("path", path), zap.Bool("exist", false))
 		return "", os.ErrNotExist
 	}
 	return path, nil
@@ -168,11 +168,11 @@ func PATH(path string) (string, error) {
 func FILE(path string) (string, error) {
 	exist, err := IsFileExists(path, Sweet)
 	if err != nil {
-		zaplog.LOGS.P1.Error("file", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Error("file", zap.String("path", path), zap.Error(err))
 		return "", erero.Wro(err)
 	}
 	if !exist {
-		zaplog.LOGS.P1.Debug("file", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Debug("file", zap.String("path", path), zap.Bool("exist", false))
 		return "", os.ErrNotExist
 	}
 	return path, nil
@@ -183,11 +183,11 @@ func FILE(path string) (string, error) {
 func ROOT(path string) (string, error) {
 	exist, err := IsRootExists(path, Sweet)
 	if err != nil {
-		zaplog.LOGS.P1.Error("root", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Error("root", zap.String("path", path), zap.Error(err))
 		return "", erero.Wro(err)
 	}
 	if !exist {
-		zaplog.LOGS.P1.Debug("root", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Debug("root", zap.String("path", path), zap.Bool("exist", false))
 		return "", os.ErrNotExist
 	}
 	return path, nil
@@ -198,10 +198,10 @@ func ROOT(path string) (string, error) {
 func MustPath(path string) {
 	exist, err := IsPathExists(path, Noisy)
 	if err != nil {
-		zaplog.LOGS.P1.Panic("must_path", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Panic("must_path", zap.String("path", path), zap.Error(err))
 	}
 	if !exist {
-		zaplog.LOGS.P1.Panic("must_path", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Panic("must_path", zap.String("path", path), zap.Bool("exist", false))
 	}
 }
 
@@ -210,10 +210,10 @@ func MustPath(path string) {
 func MustFile(path string) {
 	exist, err := IsFileExists(path, Noisy)
 	if err != nil {
-		zaplog.LOGS.P1.Panic("must_file", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Panic("must_file", zap.String("path", path), zap.Error(err))
 	}
 	if !exist {
-		zaplog.LOGS.P1.Panic("must_file", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Panic("must_file", zap.String("path", path), zap.Bool("exist", false))
 	}
 }
 
@@ -222,9 +222,9 @@ func MustFile(path string) {
 func MustRoot(path string) {
 	exist, err := IsRootExists(path, Noisy)
 	if err != nil {
-		zaplog.LOGS.P1.Panic("must_root", zap.String("path", path), zap.Error(err))
+		zaplog.LOGS.Skip1.Panic("must_root", zap.String("path", path), zap.Error(err))
 	}
 	if !exist {
-		zaplog.LOGS.P1.Panic("must_root", zap.String("path", path), zap.Bool("exist", false))
+		zaplog.LOGS.Skip1.Panic("must_root", zap.String("path", path), zap.Bool("exist", false))
 	}
 }
